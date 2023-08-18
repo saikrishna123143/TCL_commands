@@ -1,0 +1,100 @@
+SQL> desc t1
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ H1                                                 NUMBER(4)
+ H2                                                 VARCHAR2(8)
+
+SQL> insert into t1 values(&h1,&h2);
+Enter value for h1: 1002
+Enter value for h2: 'saik'
+old   1: insert into t1 values(&h1,&h2)
+new   1: insert into t1 values(1002,'saik')
+
+1 row created.
+
+SQL> \
+SP2-0042: unknown command "\" - rest of line ignored.
+SQL> /
+Enter value for h1: 1003
+Enter value for h2: 'ram'
+old   1: insert into t1 values(&h1,&h2)
+new   1: insert into t1 values(1003,'ram')
+
+1 row created.
+
+SQL> select * from t1;
+
+        H1 H2
+---------- --------
+      1002 saik
+      1003 ram
+
+SQL>
+SQL>
+SQL>
+SQL> ---if we didnt commit it doesnt store the inserting lines
+SQL> --thats why we commit here
+SQL> commit;
+
+Commit complete.
+
+SQL> insert into t1 values(&h1,&h2);
+Enter value for h1: 1004
+Enter value for h2: 'sita'
+old   1: insert into t1 values(&h1,&h2)
+new   1: insert into t1 values(1004,'sita')
+
+1 row created.
+
+SQL> --to delete the uncommited commands we use the rollback
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from t1;
+
+        H1 H2
+---------- --------
+      1002 saik
+      1003 ram
+
+SQL> --it does not show the sita records.
+SQL>
+SQL> --- here we create the savepoint
+SQL> savepoint p1;
+
+Savepoint created.
+
+SQL> insert into t1 values(&h1,&h2);
+Enter value for h1: 1004
+Enter value for h2: 'sita'
+old   1: insert into t1 values(&h1,&h2)
+new   1: insert into t1 values(1004,'sita')
+
+1 row created.
+
+SQL> savepoint p2;
+
+Savepoint created.
+
+SQL> insert into t1 values(&h1,&h2);
+Enter value for h1: 1005
+Enter value for h2: 'geeta'
+old   1: insert into t1 values(&h1,&h2)
+new   1: insert into t1 values(1005,'geeta')
+
+1 row created.
+
+SQL> rollback to p2;
+
+Rollback complete.
+
+SQL> select * from t1;
+
+        H1 H2
+---------- --------
+      1002 saik
+      1003 ram
+      1004 sita
+
+SQL>

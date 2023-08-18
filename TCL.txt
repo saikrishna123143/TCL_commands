@@ -1,0 +1,51 @@
+TCL commands(trasaction control language):
+
+*it deals with the trasactions.
+*it mainly deals with transactions.
+*transaction is a series of actions.
+
+example for the transaction:
+
+*machine reads account details 
+*enter pin:1234
+*display menu
+* withdraw 
+* enter amount 10000.
+*machine gives money.
+*update the balance.
+
+rules for trasaction management:
+  trasaction is either completed  or vanished.
+
+types of the TCL commands:
+  
+     1)commit
+     2)rollback
+     3)savepoint
+
+1)commit:
+
+    * database server having two spaces in it. instance stores the temparory data.db stores at the hard disk.
+    we convert the data stored in the instance to the hard disk using the commit command.
+    * it is used to store the data.
+  
+    syntax:
+            commit;
+
+2)roll back:
+    
+    * it is used to delete the commands which are not commited commands.
+
+    syntax:
+            rollback;
+
+3)savepoint:
+
+    * it is used in storing high amount of data.
+    * we create some saveponits in our commands.which is helpful create some of the files only not whole
+    
+    syntax:
+            savepoint savepoint_name;
+                      |
+            rollback to savepoint_name;
+    * upto savepoint name it delete the commands.
